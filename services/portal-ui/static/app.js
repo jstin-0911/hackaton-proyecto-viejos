@@ -31,6 +31,13 @@ function humanizeRelationship(relationship) {
   return labels[relationship] || relationship || 'Beneficiario';
 }
 
+function formatUpdatedAt(date = new Date()) {
+  return `Actualizado a las ${new Intl.DateTimeFormat('es-CO', {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date)}`;
+}
+
 function setFeedback(message, isError = false) {
   feedback.textContent = message;
   feedback.classList.toggle('is-error', isError);
@@ -94,6 +101,7 @@ function renderMember(payload) {
   text('#company-members', activeMembers);
   text('#company-members-banner', activeMembers);
   text('#member-avatar', initials(memberName));
+  text('#updated-at', formatUpdatedAt());
   document.querySelector('#member-status-badge').classList.toggle('is-inactive', member.status !== 'ACTIVE');
   renderBeneficiaries(payload.beneficiaries);
   results.classList.remove('is-loading');
@@ -153,6 +161,17 @@ document.querySelectorAll('.side-nav a[href^="#"]').forEach((link) => {
     link.classList.add('active');
     link.setAttribute('aria-current', 'page');
   });
+});
+
+document.addEventListener('keydown', (event) => {
+  const target = event.target;
+  const isTyping = target instanceof HTMLElement
+    && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+  if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey && !isTyping) {
+    event.preventDefault();
+    input.focus();
+    input.select();
+  }
 });
 
 async function checkServices() {
