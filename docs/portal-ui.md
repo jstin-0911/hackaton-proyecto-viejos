@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-`portal-ui` ofrece una pantalla web para consultar afiliados sin cambiar el contrato del gateway ni modificar el cliente API original `portal-client`. El diseño FESC Orbit usa una paleta oscura de alto contraste, acentos lima, detalles orbitales hechos en CSS y una disposición adaptable a móvil. Es una dirección visual original, no reutiliza imágenes de terceros.
+`portal-ui` ofrece una pantalla web para consultar afiliados sin cambiar el contrato del gateway ni modificar el cliente API original `portal-client`. El diseño FESC Orbit usa una paleta casi negra con grises y blancos, navegación horizontal compacta, tarjetas planas de alto contraste y una disposición adaptable a móvil. Es una dirección visual original inspirada en la referencia compartida, no reutiliza logotipos ni imágenes de terceros.
 
 ## Componentes y flujo
 
