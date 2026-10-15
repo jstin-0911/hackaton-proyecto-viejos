@@ -9,8 +9,8 @@ el cambio de esquema del DBA no los afecta y existe un rollback inmediato por do
 
 ## Integrantes
 
-- <Nombre completo del integrante 1>
-- <Nombre completo del integrante 2>
+- Camilo Andres Jaimes Gamboa
+- Yostin Leonardo Medina Pacheco
 
 ## Requisitos
 
