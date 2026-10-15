@@ -25,6 +25,8 @@ def test_portal_serves_local_assets():
     assert "FESC Orbit" in stylesheet.text
     assert script.status_code == 200
     assert "document.addEventListener('keydown'" in script.text
+    assert "function maskDocument(value)" in script.text
+    assert 'id="toggle-document"' in requests.get(PORTAL_UI + "/", timeout=10).text
 
 
 def test_portal_health_reports_gateway_status():

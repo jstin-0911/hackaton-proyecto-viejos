@@ -3,6 +3,9 @@ const input = document.querySelector('#document-input');
 const feedback = document.querySelector('#feedback');
 const results = document.querySelector('#results');
 const submitButton = form.querySelector('button[type="submit"]');
+const documentToggle = document.querySelector('#toggle-document');
+let memberDocument = '';
+let isDocumentVisible = false;
 
 const text = (selector, value) => {
   const node = document.querySelector(selector);
@@ -88,10 +91,16 @@ function renderMember(payload) {
   const activeMembers = Number.isFinite(Number(company.activeMembers))
     ? String(company.activeMembers)
     : '—';
+  memberDocument = String(member.document || '');
+  isDocumentVisible = false;
 
   text('#member-name', memberName);
-  text('#member-document', `Documento ${member.document || '—'}`);
-  text('#member-id', member.document || '—');
+  text('#member-document', `Documento ${maskDocument(memberDocument)}`);
+  text('#member-id', maskDocument(memberDocument));
+  documentToggle.disabled = !memberDocument;
+  documentToggle.setAttribute('aria-pressed', 'false');
+  documentToggle.textContent = 'Mostrar';
+  documentToggle.setAttribute('aria-label', 'Mostrar número de documento completo');
   text('#member-status', status);
   text('#member-status-label', status);
   text('#member-company', company.name || 'Sin empresa registrada');
@@ -108,6 +117,25 @@ function renderMember(payload) {
   results.hidden = false;
 }
 
+function maskDocument(value) {
+  if (!value) return '—';
+  return value.length <= 4 ? '•'.repeat(value.length) : `••••••${value.slice(-4)}`;
+}
+
+documentToggle.addEventListener('click', () => {
+  if (!memberDocument) return;
+  isDocumentVisible = !isDocumentVisible;
+  const displayed = isDocumentVisible ? memberDocument : maskDocument(memberDocument);
+  text('#member-id', displayed);
+  text('#member-document', `Documento ${displayed}`);
+  documentToggle.textContent = isDocumentVisible ? 'Ocultar' : 'Mostrar';
+  documentToggle.setAttribute('aria-pressed', String(isDocumentVisible));
+  documentToggle.setAttribute(
+    'aria-label',
+    `${isDocumentVisible ? 'Ocultar' : 'Mostrar'} número de documento completo`,
+  );
+});
+
 async function searchMember(documentNumber) {
   const normalized = documentNumber.trim();
   if (!/^[0-9]{1,20}$/.test(normalized)) {
@@ -118,6 +146,15 @@ async function searchMember(documentNumber) {
 
   setFeedback('');
   results.classList.add('is-loading');
+  results.hidden = true;
+  memberDocument = '';
+  isDocumentVisible = false;
+  documentToggle.disabled = true;
+  documentToggle.textContent = 'Mostrar';
+  documentToggle.setAttribute('aria-pressed', 'false');
+  documentToggle.setAttribute('aria-label', 'Mostrar número de documento completo');
+  text('#member-document', 'Documento —');
+  text('#member-id', '—');
   submitButton.disabled = true;
   submitButton.querySelector('span').textContent = 'Consultando…';
   text('#member-name', 'Buscando afiliado…');
