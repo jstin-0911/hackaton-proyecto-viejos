@@ -63,6 +63,6 @@ class Settings:
             state_dir=os.environ.get("STATE_DIR", "/state"),
             default_mode=os.environ.get("AFFILIATIONS_DEFAULT_MODE", "DUAL").upper(),
             breaker_cooldown=_float("BREAKER_COOLDOWN_SECONDS", 1),
-            legacy_deadline=_float("LEGACY_DEADLINE_SECONDS", 2.5),
+            legacy_deadline=_float("LEGACY_DEADLINE_SECONDS", 2),
             port=_int("GATEWAY_INTERNAL_PORT", 8082),
         )

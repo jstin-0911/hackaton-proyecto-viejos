@@ -48,7 +48,7 @@ Todo se lee de `.env` (se crea desde `.env.example`; `.env` nunca se versiona). 
 | `PORTAL_UI_PORT` | Puerto publicado para la interfaz visual del portal | `8093` |
 | `GATEWAY_WRITE_CONSUMERS` | Consumidores con permiso de escritura (retiros); `mobile` nunca puede | `subsidios,portal` |
 | `LEGACY_CONNECT_TIMEOUT` | Segundos máximos para conectar con el legacy | `1` |
-| `LEGACY_DEADLINE_SECONDS` | Plazo total por llamada al legacy; vencido responde 503 `LEGACY_UNAVAILABLE` | `2.5` |
+| `LEGACY_DEADLINE_SECONDS` | Plazo total por llamada al legacy; vencido responde 503 `LEGACY_UNAVAILABLE` | `2` |
 | `OUTBOX_INTERVAL_SECONDS` | Cada cuánto se reintentan los retiros en cola | `2` |
 | `AFFILIATIONS_DEFAULT_MODE` | Estado inicial de Afiliaciones si no existe `state/affiliations.mode` | `DUAL` |
 | `PORTAL_TOKEN` | Token Bearer del portal de servicios (lectura y escritura permitida por `GATEWAY_WRITE_CONSUMERS`) | `cambiar-portal` |
@@ -127,7 +127,7 @@ Extras operativos (documentados en `openapi.yaml`): `GET /api/v1/retirements/{re
 
 ## Pruebas
 
-Las pruebas automatizadas (44 con pytest) verifican contra la API en marcha el contrato de cada ruta, el portal visual y sus consultas, el formato de errores sin trazas ni SQL,
+Las pruebas automatizadas (45 con pytest) verifican contra la API en marcha el contrato de cada ruta, los beneficiarios contrastados con la base, el portal visual y sus consultas, el formato de errores sin trazas ni SQL,
 los permisos por token, la idempotencia de retiros, el efecto visible en la base legacy y en Educación, el paso de Subsidios por el gateway y la
 auditoría con documentos enmascarados; restauran los datos que tocan. Se ejecutan con
 `docker compose --profile test run --rm tests` y dejan el reporte JUnit en `test-results/junit.xml`. Los eventos destructivos (caída de la base,

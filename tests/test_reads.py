@@ -71,6 +71,27 @@ def test_beneficiaries_have_canonical_shape(api, sample_member):
         assert item["relationship"] in ("SPOUSE", "CHILD", "FATHER", "MOTHER")
 
 
+def test_beneficiaries_match_legacy_records(api, legacy, sample_member):
+    response = api.get("/api/v1/members/{0}/beneficiaries".format(sample_member))
+    assert response.status_code == 200
+
+    rows = legacy.query(
+        "SELECT nro_doc_ben, nom1, nom2, ape1, ape2, cod_par FROM afi_ben "
+        "WHERE nro_doc = %s ORDER BY nro_doc_ben",
+        (sample_member,),
+    )
+    relationships = {"C": "SPOUSE", "H": "CHILD", "P": "FATHER", "M": "MOTHER"}
+    expected = [
+        {
+            "document": row[0],
+            "fullName": " ".join(part.strip() for part in row[1:5] if part and part.strip()),
+            "relationship": relationships.get(row[5].strip().upper(), "OTHER"),
+        }
+        for row in rows
+    ]
+    assert response.json() == expected
+
+
 def test_beneficiaries_of_unknown_member_is_404(api):
     assert api.get("/api/v1/members/0000000001/beneficiaries").status_code == 404
 

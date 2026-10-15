@@ -17,7 +17,7 @@ from gateway.errors import LegacyUnavailable
 
 
 class LegacyGuard:
-    def __init__(self, cooldown, deadline=2.5, workers=64):
+    def __init__(self, cooldown, deadline=2, workers=64):
         self._cooldown = cooldown
         self._deadline = deadline
         self._opened_at = None

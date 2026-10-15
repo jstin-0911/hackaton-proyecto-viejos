@@ -21,7 +21,7 @@ scripts de `db/init`, con `./validator check`, `./validator entregables`, las pr
 - Herramienta: Claude (Claude Code)
 - Para qué se usó: escribir las pruebas automatizadas y el script de recorrido de los tres eventos del reto
 - Prompt principal (resumido): "pruebas pytest del contrato con limpieza de datos y un script que pruebe caída, cambio de esquema, app móvil y rollback"
-- Qué produjo: 44 pruebas en `tests/`, el servicio `tests` del compose y `scripts/scenarios.sh` con 29 verificaciones
+- Qué produjo: 45 pruebas en `tests/`, el servicio `tests` del compose y `scripts/scenarios.sh` con 29 verificaciones
 - Qué modificó o corrigió el equipo: una prueba de Subsidios con un motivo con tilde devolvió 502 y reveló que el gateway fallaba con texto no ASCII; se forzó la codificación UTF-8 en la conexión y se agregó protección para que un retiro defectuoso no bloquee la cola
 
 ## Uso 4
