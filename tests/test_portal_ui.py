@@ -17,7 +17,12 @@ def test_portal_homepage_serves_dashboard():
     assert "PORTAL DE SERVICIOS" in response.text
     assert 'aria-controls="resources-panel"' in response.text
     assert "AYUDA Y ESTADO" in response.text
-    assert 'class="account-switch"' in response.text
+    assert 'class="account-switch"' not in response.text
+    assert 'href="#company-card"' in response.text
+    assert 'id="language-toggle"' in response.text
+    assert 'id="language-panel"' in response.text
+    assert 'data-language="es"' in response.text
+    assert 'data-language="en"' in response.text
 
 
 def test_portal_serves_local_assets():
@@ -30,6 +35,8 @@ def test_portal_serves_local_assets():
     assert "document.addEventListener('keydown'" in script.text
     assert "resourcesToggle.addEventListener('click'" in script.text
     assert "function maskDocument(value)" in script.text
+    assert "function applyLanguage(language)" in script.text
+    assert "'fesc-language'" in script.text
     assert 'id="toggle-document"' in requests.get(PORTAL_UI + "/", timeout=10).text
 
 

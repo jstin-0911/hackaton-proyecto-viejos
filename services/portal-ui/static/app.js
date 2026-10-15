@@ -1,3 +1,188 @@
+const translations = {
+  es: {
+    skipToContent: 'Saltar al contenido',
+    mainNavigation: 'Navegación principal',
+    sections: 'Secciones',
+    documentTitle: 'Portal de servicios | FESC',
+    metaDescription: 'Portal de servicios FESC: consulta afiliados y sus beneficiarios.',
+    workspace: 'ESPACIO DE TRABAJO',
+    members: 'Afiliados',
+    companies: 'Empresas',
+    beneficiaries: 'Beneficiarios',
+    resources: 'Recursos',
+    portalResources: 'Recursos del portal',
+    management: 'GESTIÓN',
+    searchMember: 'Buscar afiliado',
+    memberProfile: 'Perfil del afiliado',
+    affiliatingCompany: 'Empresa afiliadora',
+    activeMembers: 'afiliados activos',
+    newSearch: 'Nueva consulta',
+    helpAndStatus: 'AYUDA Y ESTADO',
+    serviceStatus: 'Estado de los servicios',
+    contactSupport: 'Contactar soporte',
+    aboutPortal: 'Acerca del portal',
+    needHelp: '¿Necesitas ayuda?',
+    hereToHelp: 'Estamos aquí para acompañarte.',
+    home: 'Inicio',
+    changeLanguage: 'Cambiar idioma',
+    selectLanguage: 'Seleccionar idioma',
+    languageTitle: 'Idioma / Language',
+    userProfile: 'Perfil del usuario',
+    portalServices: 'PORTAL DE SERVICIOS',
+    heroFirst: 'Todo sobre tus afiliados,',
+    heroSecond: 'en un solo lugar.',
+    heroDescription: 'Consulta su información y acompáñalos en cada etapa.',
+    personalCare: 'Atención cercana',
+    wellbeingForAll: 'Bienestar para todos',
+    quickSearch: 'CONSULTA RÁPIDA',
+    findMember: 'Encuentra a un afiliado',
+    secureConnection: 'Conexión segura',
+    protectedData: 'Datos protegidos',
+    documentNumber: 'Número de documento del afiliado',
+    documentPlaceholder: 'Escribe el número de documento',
+    tryExample: 'Prueba la consulta con el afiliado de ejemplo:',
+    memberInformation: 'Información del afiliado',
+    realTimeInformation: 'INFORMACIÓN EN TIEMPO REAL',
+    memberSummary: 'Resumen del afiliado',
+    affiliationStatus: 'Estado de afiliación',
+    currentSystemStatus: 'Estado actual en el sistema',
+    linkedCompany: 'Empresa vinculada',
+    dependents: 'Personas a cargo',
+    registeredBeneficiaries: 'Beneficiarios registrados',
+    profile: 'PERFIL',
+    memberData: 'Datos del afiliado',
+    moreOptions: 'Más opciones',
+    company: 'Empresa',
+    identification: 'Identificación',
+    show: 'Mostrar',
+    hide: 'Ocultar',
+    family: 'FAMILIA',
+    peopleAssociated: 'Personas asociadas a este afiliado.',
+    code: 'Código',
+    searchAgain: 'Volver a consultar afiliado',
+    footerBrand: '© FESC · Portal de servicios',
+    privacyFooter: 'Tu información se gestiona de forma segura',
+    verifyingServices: 'Verificando servicios',
+    servicesOnline: 'Servicios en línea',
+    serviceUnavailable: 'Servicio no disponible',
+    updatedAt: 'Actualizado a las {time}',
+    loading: 'Cargando…',
+    searchingMember: 'Buscando afiliado…',
+    noMember: 'Afiliado',
+    noInformation: 'Sin información',
+    inactive: 'Inactiva',
+    suspended: 'Suspendida',
+    noCompany: 'Sin empresa registrada',
+    noCompanyShort: 'Sin empresa',
+    showFullDocument: 'Mostrar número de documento completo',
+    hideFullDocument: 'Ocultar número de documento completo',
+    emptyBeneficiaries: 'Sin beneficiarios registrados',
+    emptyBeneficiariesHelp: 'Cuando se registren, aparecerán aquí.',
+    noBeneficiaryName: 'Nombre no disponible',
+    beneficiary: 'Beneficiario',
+    spouse: 'Cónyuge',
+    child: 'Hijo/a',
+    father: 'Padre',
+    mother: 'Madre',
+    validDocument: 'Escribe un número de documento válido, solo con dígitos.',
+    notFound: 'No encontramos un afiliado con ese documento.',
+    requestFailed: 'No se pudo completar la consulta.',
+    unexpectedError: 'Ocurrió un error al consultar el afiliado.',
+    consulting: 'Consultando…',
+  },
+  en: {
+    skipToContent: 'Skip to content',
+    mainNavigation: 'Main navigation',
+    sections: 'Sections',
+    documentTitle: 'Services portal | FESC',
+    metaDescription: 'FESC services portal: look up members and their beneficiaries.',
+    workspace: 'WORKSPACE',
+    members: 'Members',
+    companies: 'Companies',
+    beneficiaries: 'Beneficiaries',
+    resources: 'Resources',
+    portalResources: 'Portal resources',
+    management: 'MANAGEMENT',
+    searchMember: 'Search member',
+    memberProfile: 'Member profile',
+    affiliatingCompany: 'Affiliated company',
+    activeMembers: 'active members',
+    newSearch: 'New search',
+    helpAndStatus: 'HELP & STATUS',
+    serviceStatus: 'Service status',
+    contactSupport: 'Contact support',
+    aboutPortal: 'About the portal',
+    needHelp: 'Need help?',
+    hereToHelp: 'We are here to help you.',
+    home: 'Home',
+    changeLanguage: 'Change language',
+    selectLanguage: 'Select language',
+    languageTitle: 'Language',
+    userProfile: 'User profile',
+    portalServices: 'SERVICES PORTAL',
+    heroFirst: 'Everything about your members,',
+    heroSecond: 'all in one place.',
+    heroDescription: 'View their information and support them at every stage.',
+    personalCare: 'Personal care',
+    wellbeingForAll: 'Well-being for everyone',
+    quickSearch: 'QUICK SEARCH',
+    findMember: 'Find a member',
+    secureConnection: 'Secure connection',
+    protectedData: 'Protected data',
+    documentNumber: 'Member identification number',
+    documentPlaceholder: 'Enter the identification number',
+    tryExample: 'Try a search with this sample member:',
+    memberInformation: 'Member information',
+    realTimeInformation: 'REAL-TIME INFORMATION',
+    memberSummary: 'Member summary',
+    affiliationStatus: 'Membership status',
+    currentSystemStatus: 'Current system status',
+    linkedCompany: 'Affiliated company',
+    dependents: 'Dependents',
+    registeredBeneficiaries: 'Registered beneficiaries',
+    profile: 'PROFILE',
+    memberData: 'Member details',
+    moreOptions: 'More options',
+    company: 'Company',
+    identification: 'Identification',
+    show: 'Show',
+    hide: 'Hide',
+    family: 'FAMILY',
+    peopleAssociated: 'People associated with this member.',
+    code: 'Code',
+    searchAgain: 'Search for another member',
+    footerBrand: '© FESC · Services portal',
+    privacyFooter: 'Your information is handled securely',
+    verifyingServices: 'Checking services',
+    servicesOnline: 'Services online',
+    serviceUnavailable: 'Service unavailable',
+    updatedAt: 'Updated at {time}',
+    loading: 'Loading…',
+    searchingMember: 'Searching for member…',
+    noMember: 'Member',
+    noInformation: 'No information',
+    inactive: 'Inactive',
+    suspended: 'Suspended',
+    noCompany: 'No company registered',
+    noCompanyShort: 'No company',
+    showFullDocument: 'Show full identification number',
+    hideFullDocument: 'Hide full identification number',
+    emptyBeneficiaries: 'No beneficiaries registered',
+    emptyBeneficiariesHelp: 'They will appear here once registered.',
+    noBeneficiaryName: 'Name unavailable',
+    beneficiary: 'Beneficiary',
+    spouse: 'Spouse',
+    child: 'Child',
+    father: 'Father',
+    mother: 'Mother',
+    validDocument: 'Enter a valid identification number using digits only.',
+    notFound: 'No member was found with that identification number.',
+    requestFailed: 'The search could not be completed.',
+    unexpectedError: 'An error occurred while searching for the member.',
+    consulting: 'Searching…',
+  },
+};
+
 const form = document.querySelector('#search-form');
 const input = document.querySelector('#document-input');
 const feedback = document.querySelector('#feedback');
@@ -7,8 +192,84 @@ const documentToggle = document.querySelector('#toggle-document');
 const resourcesMenu = document.querySelector('#resources-menu');
 const resourcesToggle = document.querySelector('#resources-toggle');
 const resourcesPanel = document.querySelector('#resources-panel');
+const languageMenu = document.querySelector('#language-menu');
+const languageToggle = document.querySelector('#language-toggle');
+const languagePanel = document.querySelector('#language-panel');
+let currentLanguage = 'es';
+try {
+  currentLanguage = localStorage.getItem('fesc-language') === 'en' ? 'en' : 'es';
+} catch {
+  currentLanguage = 'es';
+}
 let memberDocument = '';
 let isDocumentVisible = false;
+
+function translate(key) {
+  return translations[currentLanguage][key] || translations.es[key] || key;
+}
+
+function applyLanguage(language) {
+  currentLanguage = language;
+  document.documentElement.lang = language;
+  document.querySelector('meta[name="description"]').content = translate('metaDescription');
+  document.querySelectorAll('[data-i18n]').forEach((node) => {
+    node.textContent = translate(node.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((node) => {
+    node.placeholder = translate(node.dataset.i18nPlaceholder);
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
+    node.setAttribute('aria-label', translate(node.dataset.i18nAriaLabel));
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach((node) => {
+    node.title = translate(node.dataset.i18nTitle);
+  });
+  document.querySelectorAll('.language-option').forEach((option) => {
+    option.setAttribute('aria-pressed', String(option.dataset.language === language));
+  });
+  document.querySelector('#updated-at').textContent = formatUpdatedAt();
+  if (feedback.dataset.translationKey) {
+    feedback.textContent = translate(feedback.dataset.translationKey);
+  }
+  const status = document.querySelector('#system-status');
+  status.querySelector('span:last-child').textContent = status.classList.contains('is-online')
+    ? translate('servicesOnline')
+    : status.classList.contains('is-down')
+      ? translate('serviceUnavailable')
+      : translate('verifyingServices');
+  if (document.querySelector('#member-status').dataset.status) {
+    text('#member-status', humanizeStatus(document.querySelector('#member-status').dataset.status));
+    text('#member-status-label', humanizeStatus(document.querySelector('#member-status').dataset.status));
+  }
+  if (document.querySelector('#member-name').dataset.fallback === 'true') {
+    text('#member-name', translate('noMember'));
+  }
+  if (document.querySelector('#member-company').dataset.fallback === 'true') {
+    text('#member-company', translate('noCompany'));
+    text('#company-name', translate('noCompany'));
+    text('#company-name-short', translate('noCompanyShort'));
+  }
+  if (memberDocument) {
+    const displayed = isDocumentVisible ? memberDocument : maskDocument(memberDocument);
+    text('#member-document', `${translate('documentNumber')}: ${displayed}`);
+    text('#member-id', displayed);
+    documentToggle.textContent = translate(isDocumentVisible ? 'hide' : 'show');
+    documentToggle.setAttribute(
+      'aria-label',
+      translate(isDocumentVisible ? 'hideFullDocument' : 'showFullDocument'),
+    );
+  }
+  if (document.querySelector('#beneficiary-list .empty-beneficiaries')) {
+    const empty = document.querySelector('#beneficiary-list .empty-beneficiaries');
+    empty.querySelector('strong').textContent = translate('emptyBeneficiaries');
+    empty.querySelector('small').textContent = translate('emptyBeneficiariesHelp');
+  } else {
+    document.querySelectorAll('.beneficiary-copy small').forEach((node) => {
+      const item = node.closest('.beneficiary-item');
+      node.textContent = humanizeRelationship(item.dataset.relationship);
+    });
+  }
+}
 
 const text = (selector, value) => {
   const node = document.querySelector(selector);
@@ -26,26 +287,29 @@ function initials(name) {
 }
 
 function humanizeStatus(status) {
-  const labels = { ACTIVE: 'Activa', INACTIVE: 'Inactiva', SUSPENDED: 'Suspendida' };
-  return labels[status] || status || 'Sin información';
+  const labels = { ACTIVE: currentLanguage === 'es' ? 'Activa' : 'Active', INACTIVE: translate('inactive'), SUSPENDED: translate('suspended') };
+  return labels[status] || status || translate('noInformation');
 }
 
 function humanizeRelationship(relationship) {
   const labels = {
-    SPOUSE: 'Cónyuge', CHILD: 'Hijo/a', FATHER: 'Padre', MOTHER: 'Madre',
+    SPOUSE: translate('spouse'), CHILD: translate('child'), FATHER: translate('father'), MOTHER: translate('mother'),
   };
-  return labels[relationship] || relationship || 'Beneficiario';
+  return labels[relationship] || relationship || translate('beneficiary');
 }
 
 function formatUpdatedAt(date = new Date()) {
-  return `Actualizado a las ${new Intl.DateTimeFormat('es-CO', {
+  const locale = currentLanguage === 'es' ? 'es-CO' : 'en-US';
+  const time = new Intl.DateTimeFormat(locale, {
     hour: '2-digit',
     minute: '2-digit',
-  }).format(date)}`;
+  }).format(date);
+  return translate('updatedAt').replace('{time}', time);
 }
 
-function setFeedback(message, isError = false) {
+function setFeedback(message, isError = false, translationKey = '') {
   feedback.textContent = message;
+  feedback.dataset.translationKey = translationKey;
   feedback.classList.toggle('is-error', isError);
   feedback.hidden = !message;
 }
@@ -60,7 +324,7 @@ function renderBeneficiaries(items) {
   if (!beneficiaries.length) {
     const empty = document.createElement('li');
     empty.className = 'empty-beneficiaries';
-    empty.innerHTML = '<span class="empty-icon" aria-hidden="true">♡</span><span><strong>Sin beneficiarios registrados</strong><small>Cuando se registren, aparecerán aquí.</small></span>';
+    empty.innerHTML = `<span class="empty-icon" aria-hidden="true">♡</span><span><strong>${translate('emptyBeneficiaries')}</strong><small>${translate('emptyBeneficiariesHelp')}</small></span>`;
     list.append(empty);
     return;
   }
@@ -74,9 +338,10 @@ function renderBeneficiaries(items) {
     const copy = document.createElement('span');
     copy.className = 'beneficiary-copy';
     const name = document.createElement('strong');
-    name.textContent = person.fullName || 'Nombre no disponible';
+    name.textContent = person.fullName || translate('noBeneficiaryName');
     const relation = document.createElement('small');
     relation.textContent = humanizeRelationship(person.relationship);
+    item.dataset.relationship = person.relationship || '';
     copy.append(name, relation);
     const documentNumber = document.createElement('span');
     documentNumber.className = 'beneficiary-document';
@@ -89,7 +354,7 @@ function renderBeneficiaries(items) {
 function renderMember(payload) {
   const member = payload.member || {};
   const company = payload.company || member.company || {};
-  const memberName = member.fullName || 'Afiliado';
+  const memberName = member.fullName || translate('noMember');
   const status = humanizeStatus(member.status);
   const activeMembers = Number.isFinite(Number(company.activeMembers))
     ? String(company.activeMembers)
@@ -98,18 +363,21 @@ function renderMember(payload) {
   isDocumentVisible = false;
 
   text('#member-name', memberName);
-  text('#member-document', `Documento ${maskDocument(memberDocument)}`);
+  document.querySelector('#member-name').dataset.fallback = String(!member.fullName);
+  text('#member-document', `${translate('documentNumber')}: ${maskDocument(memberDocument)}`);
   text('#member-id', maskDocument(memberDocument));
   documentToggle.disabled = !memberDocument;
   documentToggle.setAttribute('aria-pressed', 'false');
-  documentToggle.textContent = 'Mostrar';
-  documentToggle.setAttribute('aria-label', 'Mostrar número de documento completo');
+  documentToggle.textContent = translate('show');
+  documentToggle.setAttribute('aria-label', translate('showFullDocument'));
   text('#member-status', status);
   text('#member-status-label', status);
-  text('#member-company', company.name || 'Sin empresa registrada');
-  text('#company-name', company.name || 'Sin empresa registrada');
-  text('#company-name-short', company.name || 'Sin empresa');
-  text('#company-id', `Código ${company.id || '—'}`);
+  document.querySelector('#member-status').dataset.status = member.status || '';
+  text('#member-company', company.name || translate('noCompany'));
+  text('#company-name', company.name || translate('noCompany'));
+  text('#company-name-short', company.name || translate('noCompanyShort'));
+  document.querySelector('#member-company').dataset.fallback = String(!company.name);
+  text('#company-id', company.id || '—');
   text('#company-members', activeMembers);
   text('#company-members-banner', activeMembers);
   text('#member-avatar', initials(memberName));
@@ -142,7 +410,7 @@ documentToggle.addEventListener('click', () => {
 async function searchMember(documentNumber) {
   const normalized = documentNumber.trim();
   if (!/^[0-9]{1,20}$/.test(normalized)) {
-    setFeedback('Escribe un número de documento válido, solo con dígitos.', true);
+      setFeedback(translate('validDocument'), true, 'validDocument');
     input.focus();
     return;
   }
@@ -153,16 +421,16 @@ async function searchMember(documentNumber) {
   memberDocument = '';
   isDocumentVisible = false;
   documentToggle.disabled = true;
-  documentToggle.textContent = 'Mostrar';
+  documentToggle.textContent = translate('show');
   documentToggle.setAttribute('aria-pressed', 'false');
-  documentToggle.setAttribute('aria-label', 'Mostrar número de documento completo');
-  text('#member-document', 'Documento —');
+  documentToggle.setAttribute('aria-label', translate('showFullDocument'));
+  text('#member-document', `${translate('documentNumber')}: —`);
   text('#member-id', '—');
   submitButton.disabled = true;
-  submitButton.querySelector('span').textContent = 'Consultando…';
-  text('#member-name', 'Buscando afiliado…');
-  text('#member-status', 'Cargando…');
-  text('#company-name-short', 'Cargando…');
+  submitButton.querySelector('span').textContent = translate('consulting');
+  text('#member-name', translate('searchingMember'));
+  text('#member-status', translate('loading'));
+  text('#company-name-short', translate('loading'));
 
   try {
     const response = await fetch(`/api/member/${encodeURIComponent(normalized)}`, {
@@ -170,14 +438,19 @@ async function searchMember(documentNumber) {
     });
     const payload = await response.json();
     if (!response.ok) {
-      throw new Error(response.status === 404 ? 'No encontramos un afiliado con ese documento.' : (payload.message || 'No se pudo completar la consulta.'));
+      if (response.status === 404) {
+        const error = new Error(translate('notFound'));
+        error.translationKey = 'notFound';
+        throw error;
+      }
+      throw new Error(payload.message || translate('requestFailed'));
     }
     renderMember(payload);
   } catch (error) {
-    setFeedback(error.message || 'Ocurrió un error al consultar el afiliado.', true);
+    setFeedback(error.message || translate('unexpectedError'), true, error.translationKey || '');
   } finally {
     submitButton.disabled = false;
-    submitButton.querySelector('span').textContent = 'Buscar afiliado';
+    submitButton.querySelector('span').textContent = translate('searchMember');
     results.classList.remove('is-loading');
   }
 }
@@ -205,8 +478,33 @@ document.querySelectorAll('.side-nav a[href^="#"]').forEach((link) => {
 
 resourcesToggle.addEventListener('click', () => {
   const isExpanded = resourcesToggle.getAttribute('aria-expanded') === 'true';
+  languageToggle.setAttribute('aria-expanded', 'false');
+  languagePanel.hidden = true;
   resourcesToggle.setAttribute('aria-expanded', String(!isExpanded));
   resourcesPanel.hidden = isExpanded;
+});
+
+languageToggle.addEventListener('click', () => {
+  const isExpanded = languageToggle.getAttribute('aria-expanded') === 'true';
+  resourcesToggle.setAttribute('aria-expanded', 'false');
+  resourcesPanel.hidden = true;
+  languageToggle.setAttribute('aria-expanded', String(!isExpanded));
+  languagePanel.hidden = isExpanded;
+});
+
+languagePanel.addEventListener('click', (event) => {
+  const option = event.target.closest('[data-language]');
+  if (!option) return;
+  const language = option.dataset.language;
+  applyLanguage(language);
+  try {
+    localStorage.setItem('fesc-language', language);
+  } catch {
+    // Language selection still applies for this page when storage is unavailable.
+  }
+  languageToggle.setAttribute('aria-expanded', 'false');
+  languagePanel.hidden = true;
+  languageToggle.focus();
 });
 
 resourcesPanel.addEventListener('click', (event) => {
@@ -221,20 +519,19 @@ document.addEventListener('click', (event) => {
     resourcesToggle.setAttribute('aria-expanded', 'false');
     resourcesPanel.hidden = true;
   }
-});
-
-document.querySelectorAll('.account-pill').forEach((link) => {
-  link.addEventListener('click', () => {
-    document.querySelectorAll('.account-pill').forEach((pill) => {
-      pill.classList.remove('is-active');
-      pill.removeAttribute('aria-current');
-    });
-    link.classList.add('is-active');
-    link.setAttribute('aria-current', 'page');
-  });
+  if (!languageMenu.contains(event.target)) {
+    languageToggle.setAttribute('aria-expanded', 'false');
+    languagePanel.hidden = true;
+  }
 });
 
 document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && languageToggle.getAttribute('aria-expanded') === 'true') {
+    languageToggle.setAttribute('aria-expanded', 'false');
+    languagePanel.hidden = true;
+    languageToggle.focus();
+    return;
+  }
   if (event.key === 'Escape' && resourcesToggle.getAttribute('aria-expanded') === 'true') {
     resourcesToggle.setAttribute('aria-expanded', 'false');
     resourcesPanel.hidden = true;
@@ -257,14 +554,18 @@ async function checkServices() {
     const response = await fetch('/api/health', { headers: { Accept: 'application/json' } });
     const health = await response.json();
     status.classList.toggle('is-down', !response.ok || health.status !== 'UP');
-    status.querySelector('span:last-child').textContent = response.ok && health.status === 'UP'
-      ? 'Servicios en línea'
-      : 'Servicio no disponible';
+    status.classList.toggle('is-online', response.ok && health.status === 'UP');
+    status.querySelector('span:last-child').textContent = translate(
+      response.ok && health.status === 'UP' ? 'servicesOnline' : 'serviceUnavailable',
+    );
   } catch {
     status.classList.add('is-down');
-    status.querySelector('span:last-child').textContent = 'Servicio no disponible';
+    status.classList.remove('is-online');
+    status.querySelector('span:last-child').textContent = translate('serviceUnavailable');
   }
 }
 
+languagePanel.hidden = true;
+applyLanguage(currentLanguage);
 checkServices();
 searchMember(input.value);
