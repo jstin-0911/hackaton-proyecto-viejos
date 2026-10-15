@@ -13,6 +13,8 @@
 
 La pantalla inicial está en `http://localhost:8093`. El botón de búsqueda consulta `GET /api/member/{documento}` del servicio visual; este reúne afiliado, beneficiarios y empresa desde los endpoints autenticados del gateway. `GET /api/health` refleja la disponibilidad del gateway. El portal conserva su contrato original en `http://localhost:8092/portal/afiliados/{documento}`.
 
+La cabecera reúne accesos directos a Afiliados, Empresas y Beneficiarios, un menú Recursos con enlaces organizados por categoría y un selector Personal/Empresas que lleva a las secciones correspondientes. El menú se puede abrir con teclado, se cierra con `Escape` o al elegir un recurso, y en móvil se despliega dentro del viewport.
+
 ## Privacidad y accesibilidad
 
 El número de documento se muestra enmascarado por defecto y solo se revela al activar el botón «Mostrar». Al iniciar otra búsqueda, los datos de la consulta previa se ocultan; si no hay coincidencia, la ficha no queda visible. Los recursos se restringen a una lista de rutas conocidas y el servidor añade una política CSP, `nosniff` y `no-store`.

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#102e35">
+    <meta name="theme-color" content="#050505">
     <meta name="description" content="Portal de servicios FESC: consulta afiliados y sus beneficiarios.">
     <title>Portal de servicios | FESC</title>
     <link rel="stylesheet" href="/assets/styles.css">
@@ -18,23 +18,36 @@
           <span class="brand-copy"><strong>fesc</strong><small>caja de compensación</small></span>
         </a>
         <div class="nav-label">ESPACIO DE TRABAJO</div>
-        <nav class="side-nav">
-          <a class="nav-link active" href="#main-content" aria-current="page">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>
-            <span>Resumen</span><span class="nav-active-dot" aria-hidden="true"></span>
-          </a>
-          <a class="nav-link" href="#member-profile">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20v-1.2a6 6 0 0 1 6-6h.5a6 6 0 0 1 6 6V20M16 4.8a3.5 3.5 0 0 1 0 6.5M18 13a5 5 0 0 1 3 4.6V20"/></svg>
-            <span>Afiliados</span>
-          </a>
-          <a class="nav-link" href="#company-card">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7.5L12 4l8 3.5V20M2.5 20h19M8 9h1m6 0h1M8 12.5h1m6 0h1M10 20v-4h4v4"/></svg>
-            <span>Empresas</span>
-          </a>
-          <a class="nav-link" href="#beneficiaries-card">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-8-4.8-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.2-8 10-8 10Z"/><path d="M8.5 12h7"/></svg>
-            <span>Beneficiarios</span>
-          </a>
+        <nav class="side-nav" aria-label="Secciones">
+          <a class="nav-link" href="#member-profile">Afiliados</a>
+          <a class="nav-link" href="#company-card">Empresas</a>
+          <a class="nav-link" href="#beneficiaries-card">Beneficiarios</a>
+          <div class="resources-menu" id="resources-menu">
+            <button class="nav-link resources-toggle" id="resources-toggle" type="button" aria-expanded="false" aria-controls="resources-panel">
+              <span>Recursos</span>
+              <svg class="resources-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <div class="resources-panel" id="resources-panel" aria-label="Recursos del portal" hidden>
+              <section class="resource-column" aria-labelledby="resource-manage">
+                <h2 id="resource-manage">GESTIÓN</h2>
+                <a href="#lookup">Buscar afiliado</a>
+                <a href="#member-profile">Perfil del afiliado</a>
+                <a href="#beneficiaries-card">Beneficiarios</a>
+              </section>
+              <section class="resource-column" aria-labelledby="resource-company">
+                <h2 id="resource-company">EMPRESAS</h2>
+                <a href="#company-card">Empresa afiliadora</a>
+                <a href="#company-card">Afiliados activos</a>
+                <a href="#lookup">Nueva consulta</a>
+              </section>
+              <section class="resource-column" aria-labelledby="resource-support">
+                <h2 id="resource-support">AYUDA Y ESTADO</h2>
+                <a href="#system-status">Estado de los servicios</a>
+                <a href="mailto:servicioalcliente@fesc.edu.co">Contactar soporte</a>
+                <a href="docs/portal-ui.md">Acerca del portal</a>
+              </section>
+            </div>
+          </div>
         </nav>
         <div class="sidebar-bottom">
           <div class="help-card">
@@ -54,11 +67,15 @@
           <div class="breadcrumbs"><span>Inicio</span><span class="crumb-slash">/</span><strong>Afiliados</strong></div>
           <div class="topbar-actions">
             <div class="system-status" id="system-status" role="status" aria-live="polite"><span class="status-dot"></span><span>Verificando servicios</span></div>
-            <span class="topbar-divider" aria-hidden="true"></span>
+            <nav class="account-switch" aria-label="Cambiar sección">
+              <a class="account-pill is-active" href="#member-profile" aria-current="page">Personal</a>
+              <a class="account-pill" href="#company-card">Empresas</a>
+            </nav>
+            <span class="locale-icon" role="img" aria-label="Atención en español" title="Atención en español">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+            </span>
             <button class="profile-button" type="button" aria-label="Perfil del usuario">
               <span class="profile-avatar">AF</span>
-              <span class="profile-name">Asesor FESC</span>
-              <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
             </button>
           </div>
         </header>

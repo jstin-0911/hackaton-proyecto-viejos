@@ -4,6 +4,9 @@ const feedback = document.querySelector('#feedback');
 const results = document.querySelector('#results');
 const submitButton = form.querySelector('button[type="submit"]');
 const documentToggle = document.querySelector('#toggle-document');
+const resourcesMenu = document.querySelector('#resources-menu');
+const resourcesToggle = document.querySelector('#resources-toggle');
+const resourcesPanel = document.querySelector('#resources-panel');
 let memberDocument = '';
 let isDocumentVisible = false;
 
@@ -200,7 +203,44 @@ document.querySelectorAll('.side-nav a[href^="#"]').forEach((link) => {
   });
 });
 
+resourcesToggle.addEventListener('click', () => {
+  const isExpanded = resourcesToggle.getAttribute('aria-expanded') === 'true';
+  resourcesToggle.setAttribute('aria-expanded', String(!isExpanded));
+  resourcesPanel.hidden = isExpanded;
+});
+
+resourcesPanel.addEventListener('click', (event) => {
+  if (event.target.closest('a')) {
+    resourcesToggle.setAttribute('aria-expanded', 'false');
+    resourcesPanel.hidden = true;
+  }
+});
+
+document.addEventListener('click', (event) => {
+  if (!resourcesMenu.contains(event.target)) {
+    resourcesToggle.setAttribute('aria-expanded', 'false');
+    resourcesPanel.hidden = true;
+  }
+});
+
+document.querySelectorAll('.account-pill').forEach((link) => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.account-pill').forEach((pill) => {
+      pill.classList.remove('is-active');
+      pill.removeAttribute('aria-current');
+    });
+    link.classList.add('is-active');
+    link.setAttribute('aria-current', 'page');
+  });
+});
+
 document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && resourcesToggle.getAttribute('aria-expanded') === 'true') {
+    resourcesToggle.setAttribute('aria-expanded', 'false');
+    resourcesPanel.hidden = true;
+    resourcesToggle.focus();
+    return;
+  }
   const target = event.target;
   const isTyping = target instanceof HTMLElement
     && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
