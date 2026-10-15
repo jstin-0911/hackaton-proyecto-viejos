@@ -136,6 +136,7 @@ cambio de esquema, rollback) los cubre `./scripts/scenarios.sh`; el validador de
 - [Arquitectura](docs/architecture.md): contexto, componentes, modelo canónico, cambio de esquema y alternativas descartadas.
 - [Mapa de dependencias](docs/dependency-map.md): quién lee y quién escribe cada tabla legacy.
 - [Plan de migración](docs/migration-plan.md): estados LEGACY → DUAL → MODERN por dominio, criterios y rollback.
+- [Interfaz visual](docs/portal-ui.md): componentes, flujo de consulta, privacidad y pruebas del portal FESC Orbit.
 - [Contrato OpenAPI](openapi.yaml): las rutas del gateway con esquemas y ejemplos.
 - [Uso de IA](AI_USAGE.md): cómo se usó la inteligencia artificial y qué se corrigió.
 
