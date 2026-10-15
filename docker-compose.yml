@@ -1,0 +1,120 @@
+name: legacy-escape
+
+services:
+  legacy-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-legacy}
+      POSTGRES_USER: ${POSTGRES_USER:-legacy}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-legacy}
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - legacy-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  # Educación: lee la base directamente. NO SE PUEDE MODIFICAR.
+  educacion-app:
+    build: ./services/educacion
+    env_file: .env
+    ports:
+      - "${EDUCACION_PORT:-8090}:8090"
+    depends_on:
+      legacy-db:
+        condition: service_healthy
+
+  # Portal de servicios: solo habla HTTP con GATEWAY_URL. NO SE PUEDE MODIFICAR.
+  portal-client:
+    build: ./services/portal
+    env_file: .env
+    ports:
+      - "${PORTAL_PORT:-8092}:8092"
+    depends_on:
+      gateway:
+        condition: service_healthy
+
+  # Interfaz visual del portal. Se agrega aparte para conservar intacto el cliente original.
+  portal-ui:
+    build: ./services/portal-ui
+    env_file: .env
+    ports:
+      - "${PORTAL_UI_PORT:-8093}:8093"
+    depends_on:
+      gateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8093/api/health', timeout=2).status == 200 else 1)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 3s
+    restart: unless-stopped
+
+  # Subsidios: registra retiros por el gateway (DUAL/MODERN) o por el camino legacy (LEGACY, rollback).
+  # El modo se lee de ./state; por eso el rollback funciona aunque el gateway esté detenido.
+  subsidios-app:
+    build: ./services/subsidios
+    env_file: .env
+    ports:
+      - "${SUBSIDIOS_PORT:-8091}:8091"
+    volumes:
+      - ./state:/state:ro
+    depends_on:
+      legacy-db:
+        condition: service_healthy
+      gateway:
+        condition: service_started
+
+  # Gateway: capa de transición. Única puerta de las aplicaciones nuevas hacia el legacy
+  # (modelo canónico + adapter). Contrato en http://localhost:8082.
+  gateway:
+    build: ./src
+    env_file: .env
+    environment:
+      OUTBOX_PATH: /data/outbox.db
+      AUDIT_LOG_PATH: /app/logs/audit.log
+      STATE_DIR: /state
+    ports:
+      - "${GATEWAY_PORT:-8082}:8082"
+    volumes:
+      - ./logs:/app/logs
+      - ./state:/state:ro
+      - gateway-data:/data
+    depends_on:
+      legacy-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8082/health', timeout=2).status == 200 else 1)"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 3s
+    restart: unless-stopped
+
+  # Pruebas automatizadas del equipo: docker compose --profile test run --rm tests
+  tests:
+    build: ./tests
+    profiles: ["test"]
+    env_file: .env
+    environment:
+      GATEWAY_BASE_URL: http://gateway:8082
+      SUBSIDIOS_BASE_URL: http://subsidios-app:8091
+      EDUCACION_BASE_URL: http://educacion-app:8090
+      AUDIT_LOG_PATH: /logs/audit.log
+    volumes:
+      - ./logs:/logs:ro
+      - ./test-results:/app/test-results
+    depends_on:
+      gateway:
+        condition: service_healthy
+      subsidios-app:
+        condition: service_started
+      educacion-app:
+        condition: service_started
+
+volumes:
+  legacy-db-data:
+  gateway-data:

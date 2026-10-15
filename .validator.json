@@ -1,0 +1,15 @@
+{
+  "level": "tecnologo",
+  "members": [
+    {
+      "document": "1019282447",
+      "hash": "1ed42e3527fc653c27e6d847c704dd8ed2edcf18d1903c0a64ce430deedc1f1d"
+    },
+    {
+      "document": "6039066119",
+      "hash": "a988f09446351b89f7a601314000ec47371818e43eba4417ad8d1e28ac914970"
+    }
+  ],
+  "missing_document": "0000000001",
+  "salt": "tecnologo-2026"
+}

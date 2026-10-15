@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102e35">
+    <meta name="description" content="Portal de servicios FESC: consulta afiliados y sus beneficiarios.">
+    <title>Portal de servicios | FESC</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegación principal">
+        <a class="brand" href="/" aria-label="FESC, inicio del portal">
+          <span class="brand-mark" aria-hidden="true">f</span>
+          <span class="brand-copy"><strong>fesc</strong><small>caja de compensación</small></span>
+        </a>
+        <div class="nav-label">ESPACIO DE TRABAJO</div>
+        <nav class="side-nav">
+          <a class="nav-link active" href="#main-content" aria-current="page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>
+            <span>Resumen</span><span class="nav-active-dot" aria-hidden="true"></span>
+          </a>
+          <a class="nav-link" href="#member-profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20v-1.2a6 6 0 0 1 6-6h.5a6 6 0 0 1 6 6V20M16 4.8a3.5 3.5 0 0 1 0 6.5M18 13a5 5 0 0 1 3 4.6V20"/></svg>
+            <span>Afiliados</span>
+          </a>
+          <a class="nav-link" href="#company-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7.5L12 4l8 3.5V20M2.5 20h19M8 9h1m6 0h1M8 12.5h1m6 0h1M10 20v-4h4v4"/></svg>
+            <span>Empresas</span>
+          </a>
+          <a class="nav-link" href="#beneficiaries-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-8-4.8-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.2-8 10-8 10Z"/><path d="M8.5 12h7"/></svg>
+            <span>Beneficiarios</span>
+          </a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <span class="help-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.3 1.7c-1.2 1.1-1.9 1.4-1.9 3M12 17.5v.1"/></svg>
+            </span>
+            <strong>¿Necesitas ayuda?</strong>
+            <span>Estamos aquí para acompañarte.</span>
+            <a href="mailto:servicioalcliente@fesc.edu.co">Contactar soporte <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="sidebar-foot"><span class="online-dot"></span> Portal protegido <span class="foot-version">v1.0</span></div>
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Inicio</span><span class="crumb-slash">/</span><strong>Afiliados</strong></div>
+          <div class="topbar-actions">
+            <div class="system-status" id="system-status" role="status" aria-live="polite"><span class="status-dot"></span><span>Verificando servicios</span></div>
+            <span class="topbar-divider" aria-hidden="true"></span>
+            <button class="profile-button" type="button" aria-label="Perfil del usuario">
+              <span class="profile-avatar">AF</span>
+              <span class="profile-name">Asesor FESC</span>
+              <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <main id="main-content" class="main-content">
+          <section class="page-intro" aria-labelledby="page-title">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> PORTAL DE SERVICIOS</div>
+              <h1 id="page-title">Todo sobre tus afiliados,<br><span>en un solo lugar.</span></h1>
+              <p>Consulta su información y acompáñalos en cada etapa.</p>
+            </div>
+            <div class="intro-art" aria-hidden="true">
+              <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+              <div class="art-sparkle sparkle-one">✳</div><div class="art-sparkle sparkle-two">✦</div>
+              <div class="art-center"><span>f</span></div>
+              <div class="art-chip chip-top"><span class="chip-check">✓</span> Atención cercana</div>
+              <div class="art-chip chip-bottom"><span class="chip-heart">♥</span> Bienestar para todos</div>
+            </div>
+          </section>
+
+          <section class="lookup-card" id="lookup" aria-labelledby="lookup-title">
+            <div class="lookup-heading">
+              <div class="search-icon-wrap" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg></div>
+              <div><div class="section-kicker">CONSULTA RÁPIDA</div><h2 id="lookup-title">Encuentra a un afiliado</h2></div>
+              <span class="lookup-lock" title="Conexión segura"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg> Datos protegidos</span>
+            </div>
+            <form id="search-form" class="search-form">
+              <label class="sr-only" for="document-input">Número de documento del afiliado</label>
+              <div class="input-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><input id="document-input" name="document" type="search" inputmode="numeric" autocomplete="off" placeholder="Escribe el número de documento" value="1019886173" required pattern="[0-9]{1,20}" maxlength="20"><kbd>↵</kbd></div>
+              <button class="button-primary" type="submit"><span>Buscar afiliado</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg></button>
+            </form>
+            <div class="form-hint"><span class="hint-sparkle">✦</span> Prueba la consulta con el afiliado de ejemplo: <button id="demo-button" class="text-button" type="button">1019886173</button></div>
+          </section>
+
+          <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+          <section id="results" class="results" aria-label="Información del afiliado" aria-live="polite">
+            <div class="results-heading"><div><div class="section-kicker">INFORMACIÓN EN TIEMPO REAL</div><h2>Resumen del afiliado</h2></div><span class="updated-label"><span class="updated-dot"></span> Actualizado ahora</span></div>
+            <div class="metric-grid">
+              <article class="metric-card"><div class="metric-top"><span>Estado de afiliación</span><span class="metric-icon icon-green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></div><div id="member-status" class="metric-value">Cargando…</div><div class="metric-foot"><span class="tiny-check">✓</span> Estado actual en el sistema</div></article>
+              <article class="metric-card"><div class="metric-top"><span>Empresa vinculada</span><span class="metric-icon icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7.5L12 4l8 3.5V20M2.5 20h19M8 9h1m6 0h1M8 12.5h1m6 0h1M10 20v-4h4v4"/></svg></span></div><div id="company-name-short" class="metric-value metric-company">Cargando…</div><div class="metric-foot"><span id="company-members">—</span> afiliados activos</div></article>
+              <article class="metric-card"><div class="metric-top"><span>Personas a cargo</span><span class="metric-icon icon-coral"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20v-1.2a6 6 0 0 1 6-6h.5a6 6 0 0 1 6 6V20M17 8a3 3 0 1 1 0 6M17 16h.5a4 4 0 0 1 4 4"/></svg></span></div><div id="beneficiary-count" class="metric-value">—</div><div class="metric-foot">Beneficiarios registrados</div></article>
+            </div>
+
+            <div class="detail-grid">
+              <article class="detail-card member-card" id="member-profile">
+                <div class="card-heading"><div><div class="section-kicker">PERFIL</div><h2>Datos del afiliado</h2></div><button class="more-button" type="button" aria-label="Más opciones">···</button></div>
+                <div class="member-identity"><div id="member-avatar" class="member-avatar">F</div><div class="identity-copy"><h3 id="member-name">Buscando afiliado…</h3><div class="document-line"><span id="member-document">Documento —</span><span class="identity-separator"></span><span id="member-status-badge" class="member-status-badge"><span></span><span id="member-status-label">Cargando</span></span></div></div></div>
+                <div class="detail-divider"></div>
+                <div class="detail-row"><span class="detail-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7.5L12 4l8 3.5V20M2.5 20h19M8 9h1m6 0h1M8 12.5h1m6 0h1M10 20v-4h4v4"/></svg> Empresa</span><strong id="member-company">—</strong></div>
+                <div class="detail-row"><span class="detail-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.2 7-12a7 7 0 1 0-14 0c0 6.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg> Identificación</span><strong id="member-id">—</strong></div>
+              </article>
+
+              <article class="detail-card beneficiaries-card" id="beneficiaries-card">
+                <div class="card-heading"><div><div class="section-kicker">FAMILIA</div><h2>Beneficiarios</h2></div><span id="beneficiary-pill" class="count-pill">—</span></div>
+                <p class="card-description">Personas asociadas a este afiliado.</p>
+                <ul id="beneficiary-list" class="beneficiary-list"><li class="list-loading">Cargando información…</li></ul>
+              </article>
+            </div>
+
+            <article class="company-banner" id="company-card">
+              <div class="company-emblem" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V7.5L12 4l8 3.5V20M2.5 20h19M8 9h1m6 0h1M8 12.5h1m6 0h1M10 20v-4h4v4"/></svg></div>
+              <div class="company-copy"><div class="section-kicker">EMPRESA AFILIADORA</div><h2 id="company-name">Cargando empresa…</h2><p id="company-id">Código —</p></div>
+              <div class="company-stat"><span id="company-members-banner">—</span><small>afiliados activos</small></div>
+              <a class="company-arrow" href="#lookup" aria-label="Volver a consultar afiliado">↗</a>
+            </article>
+          </section>
+          <footer class="page-footer"><span>© FESC · Portal de servicios</span><span><span class="footer-shield">◆</span> Tu información se gestiona de forma segura</span></footer>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

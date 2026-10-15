@@ -1,0 +1,241 @@
+#!/usr/bin/env python3
+"""Validador del equipo — Legacy Escape.
+
+Uso: ./validator check
+     ./validator entregables [--desde AAAA-MM-DDTHH:MM]
+
+check ejecuta las pruebas no destructivas del contrato contra el gateway (puerto 8082).
+No contiene respuestas esperadas en claro (usa huellas con sal). Las pruebas que
+modifican datos, detienen la base o cambian el esquema (G07–G11 y G15) solo las ejecuta
+el validador oficial: aparecen como N/E (no evaluada).
+
+entregables revisa los documentos, el adapter, OpenAPI, Git y AI_USAGE.md con las mismas
+reglas y puntos del calificador oficial (no necesita Docker).
+"""
+
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+GATEWAY = "http://localhost:{0}".format(os.environ.get("GATEWAY_PORT", "8082"))
+CHECKS = [
+    ("G01", "Salud", 10), ("G02", "Afiliado", 40), ("G03", "Beneficiarios", 30), ("G04", "Empresa", 20),
+    ("G05", "Autenticacion", 40), ("G06", "Errores", 10), ("G07", "Retiro migrado", 60), ("G08", "Idempotencia", 40),
+    ("G09", "Cambio de esquema", 60), ("G10", "Legacy caido", 50), ("G11", "Retiro en caida", 50), ("G12", "Auditoria", 30),
+    ("G13", "Reversibilidad", 20), ("G14", "Estado migracion", 10), ("G15", "Subsidios migrado", 30),
+]
+OFFICIAL_ONLY = {"G07", "G08", "G09", "G10", "G11", "G15"}
+LEGACY_NAMES = {"NRO_DOC", "NOM1", "NOM2", "APE1", "APE2", "EST_AFI", "COD_EMP", "NOM_EMP", "COD_PAR", "NRO_DOC_BEN", "DOCUMENT_NUMBER", "STATUS_CODE"}
+AUDIT_FIELDS = ["timestamp", "consumer", "endpoint", "status", "latency_ms"]
+
+
+def fingerprint(value, salt):
+    return hashlib.pbkdf2_hmac("sha256", value.encode("utf-8"), salt.encode("utf-8"), 200000).hex()
+
+
+def read_env():
+    values = {}
+    for name in (".env", ".env.example"):
+        path = os.path.join(HERE, name)
+        if os.path.exists(path):
+            for line in open(path, encoding="utf-8"):
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, value = line.split("=", 1)
+                    values.setdefault(key.strip(), value.strip())
+    return values
+
+
+def request(method, path, token=None, body=None, timeout=5):
+    data = json.dumps(body).encode("utf-8") if body is not None else None
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = "Bearer " + token
+    req = urllib.request.Request(GATEWAY + path, data=data, headers=headers, method=method)
+    started = time.time()
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.status, resp.read().decode("utf-8", "replace"), time.time() - started
+    except urllib.error.HTTPError as exc:
+        return exc.code, exc.read().decode("utf-8", "replace"), time.time() - started
+    except Exception as exc:
+        return None, str(exc), time.time() - started
+
+
+def as_json(text):
+    try:
+        return json.loads(text)
+    except (ValueError, TypeError):
+        return None
+
+
+def keys_of(obj):
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            yield str(key)
+            for nested in keys_of(value):
+                yield nested
+    elif isinstance(obj, list):
+        for item in obj:
+            for nested in keys_of(item):
+                yield nested
+
+
+class Validator:
+    def __init__(self):
+        self.public = json.load(open(os.path.join(HERE, ".validator.json"), encoding="utf-8"))
+        self.env = read_env()
+        self.results, self.details = {}, {}
+        self.member_bodies = []
+
+    def token(self, name):
+        return self.env.get(name, "")
+
+    def record(self, check_id, fraction, detail=""):
+        self.results[check_id] = max(0.0, min(1.0, fraction))
+        if detail:
+            self.details[check_id] = detail
+
+    def g01(self):
+        status, text, _ = request("GET", "/health")
+        body = as_json(text) or {}
+        ok = status == 200 and body.get("status") == "UP" and body.get("legacy") == "UP"
+        self.record("G01", 1 if ok else 0, "" if ok else "GET /health -> {0} {1}".format(status, text[:100]))
+
+    def g02(self):
+        good, notes = 0, []
+        for case in self.public["members"]:
+            status, text, _ = request("GET", "/api/v1/members/" + case["document"], self.token("PORTAL_TOKEN"))
+            body = as_json(text)
+            if status == 200 and isinstance(body, dict):
+                self.member_bodies.append(body)
+                company = body.get("company") or {}
+                key = "|".join([re.sub(r"\D", "", str(body.get("document", ""))), " ".join(str(body.get("fullName", "")).upper().split()), str(body.get("status")), str(company.get("id")), " ".join(str(company.get("name", "")).upper().split())])
+                leaks = [k for k in keys_of(body) if k.upper() in LEGACY_NAMES]
+                if fingerprint(key, self.public["salt"]) == case["hash"] and not leaks:
+                    good += 1
+                    continue
+                notes.append("{0}: datos incorrectos{1}".format(case["document"], " o columnas legacy" if leaks else ""))
+            else:
+                notes.append("{0}: HTTP {1}".format(case["document"], status))
+        self.record("G02", good / float(len(self.public["members"])), "; ".join(notes))
+
+    def g03(self):
+        doc = self.public["members"][0]["document"]
+        status, text, _ = request("GET", "/api/v1/members/{0}/beneficiaries".format(doc), self.token("PORTAL_TOKEN"))
+        body = as_json(text)
+        ok = status == 200 and isinstance(body, list) and all(isinstance(i, dict) and {"document", "fullName", "relationship"} <= set(i) for i in body)
+        self.record("G03", 1 if ok else 0, "Solo estructura (la muestra oculta la revisa el oficial)" if ok else "HTTP {0} o formato distinto a lista de {{document, fullName, relationship}}".format(status))
+
+    def g04(self):
+        if not self.member_bodies:
+            return self.record("G04", 0, "Requiere G02 (no se obtuvo la empresa de un afiliado)")
+        company_id = (self.member_bodies[0].get("company") or {}).get("id")
+        status, text, _ = request("GET", "/api/v1/companies/{0}".format(company_id), self.token("PORTAL_TOKEN"))
+        body = as_json(text) or {}
+        ok = status == 200 and str(body.get("id")) == str(company_id) and body.get("name") and isinstance(body.get("activeMembers"), int)
+        self.record("G04", 1 if ok else 0, "Solo estructura (activeMembers lo verifica el oficial)" if ok else "HTTP {0} o faltan id/name/activeMembers".format(status))
+
+    def g05(self):
+        doc = self.public["members"][0]["document"]
+        no_token, _, _ = request("GET", "/api/v1/members/" + doc)
+        read, _, _ = request("GET", "/api/v1/members/" + doc, self.token("MOBILE_TOKEN"))
+        write, _, _ = request("POST", "/api/v1/members/{0}/retirements".format(self.public["missing_document"]), self.token("MOBILE_TOKEN"), {"requestId": "validator-g05", "date": "2026-10-05", "reason": "prueba"})
+        parts = [no_token == 401, read == 200, write == 403]
+        self.record("G05", sum(parts) / 3.0, "sin token={0} (401), mobile lee={1} (200), mobile escribe={2} (403)".format(no_token, read, write) if not all(parts) else "")
+
+    def g06(self):
+        status, text, _ = request("GET", "/api/v1/members/" + self.public["missing_document"], self.token("PORTAL_TOKEN"))
+        body = as_json(text)
+        format_ok = isinstance(body, dict) and body.get("message") and body.get("error_id") and not re.search(r"Traceback|Exception|SELECT|afi_mae|nro_doc|psycopg", text)
+        self.record("G06", 0.5 * (status == 404) + 0.5 * bool(format_ok), "" if status == 404 and format_ok else "HTTP {0}: {1}".format(status, text[:120]))
+
+    def g12(self):
+        path = os.path.join(HERE, "logs", "audit.log")
+        if not os.path.exists(path):
+            return self.record("G12", 0, "No existe logs/audit.log")
+        lines = [l for l in open(path, encoding="utf-8", errors="replace").read().splitlines() if l.strip()][-200:]
+        entries = [as_json(l) for l in lines]
+        complete = [e for e in entries if isinstance(e, dict) and all(f in e for f in AUDIT_FIELDS)]
+        exposed = [c["document"] for c in self.public["members"] if any(c["document"] in l for l in lines)]
+        fraction = 0.5 * (len(complete) / float(len(entries)) if entries else 0) + 0.5 * (not exposed and bool(entries))
+        self.record("G12", fraction, "{0}/{1} líneas con los 5 campos; documentos completos visibles: {2}".format(len(complete), len(entries), len(exposed)))
+
+    def g13(self):
+        cmd = ["docker", "compose", "exec", "-T", "legacy-db", "psql", "-U", self.env.get("POSTGRES_USER", "legacy"), "-d", self.env.get("POSTGRES_DB", "legacy"), "-tAc", "SELECT count(*) FROM pg_proc WHERE proname = 'sp_registrar_retiro'"]
+        proc = subprocess.run(cmd, cwd=HERE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, timeout=60)
+        ok = proc.returncode == 0 and proc.stdout.strip() not in ("", "0")
+        self.record("G13", 1 if ok else 0, "Solo verifica que el procedimiento exista" if ok else "No se encontró sp_registrar_retiro: " + proc.stdout.strip()[-120:])
+
+    def g14(self):
+        status, text, _ = request("GET", "/api/v1/migration/status", self.token("PORTAL_TOKEN"))
+        body = as_json(text) or {}
+        state = (body.get("domains") or {}).get("affiliations") if isinstance(body, dict) else None
+        plan_path = os.path.join(HERE, "docs", "migration-plan.md")
+        plan = open(plan_path, encoding="utf-8").read().upper() if os.path.exists(plan_path) else ""
+        valid = state in ("LEGACY", "DUAL", "MODERN")
+        self.record("G14", 0.5 * valid + 0.5 * (valid and state in plan), "affiliations={0}; docs/migration-plan.md {1}".format(state, "presente" if plan else "ausente"))
+
+    def run_all(self):
+        for check_id, _, _ in CHECKS:
+            if check_id in OFFICIAL_ONLY:
+                continue
+            try:
+                getattr(self, check_id.lower())()
+            except Exception as exc:
+                self.record(check_id, 0, "Error del validador: {0}".format(exc))
+
+
+def print_table(title, checks, results, details):
+    width = 40
+    print("=" * width)
+    print(title.center(width).rstrip())
+    print("=" * width)
+    earned_total, max_total, passed = 0, 0, 0
+    for check_id, name, points in checks:
+        label = "{0} {1} ".format(check_id, name).ljust(29, ".")
+        max_total += points
+        if check_id in OFFICIAL_ONLY:
+            print("{0} {1} {2}".format(label, "N/E".ljust(7), "+0".rjust(4)))
+            continue
+        fraction = results.get(check_id, 0.0)
+        earned = int(round(points * fraction))
+        status = "PASS" if fraction >= 0.999 else ("PARCIAL" if fraction > 0 else "FAIL")
+        passed += status == "PASS"
+        earned_total += earned
+        print("{0} {1} {2}".format(label, status.ljust(7), ("+" + str(earned)).rjust(4)))
+    print("-" * width)
+    print("PRUEBAS: {0} / {1}   PUNTOS: {2} / {3}".format(passed, len(checks), earned_total, max_total))
+    print("N/E = solo en el validador oficial (G07-G11 y G15)")
+    if details:
+        print()
+        for check_id, _, _ in checks:
+            if check_id in details:
+                print("  {0}: {1}".format(check_id, details[check_id]))
+
+
+def entregables(args):
+    return subprocess.call([sys.executable, os.path.join(HERE, ".entregables.py")] + list(args), cwd=HERE)
+
+
+def main(argv):
+    if len(argv) >= 2 and argv[1] == "entregables":
+        return entregables(argv[2:])
+    if len(argv) < 2 or argv[1] != "check":
+        print(__doc__)
+        return 2
+    validator = Validator()
+    validator.run_all()
+    print_table("LEGACY ESCAPE VALIDATOR", CHECKS, validator.results, validator.details)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
