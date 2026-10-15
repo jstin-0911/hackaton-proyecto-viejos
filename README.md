@@ -22,7 +22,7 @@ se usan `bash`, `curl` y `jq`. No hace falta instalar Python ni PostgreSQL en la
 ```bash
 cp .env.example .env            # y cambien los tres tokens y la clave de la base por valores propios
 mkdir -p logs state test-results
-docker compose up -d --build    # levanta legacy-db, educacion-app, gateway, portal-client y subsidios-app
+docker compose up -d --build    # levanta legacy-db, educacion-app, gateway, portal-client, portal-ui y subsidios-app
 docker compose ps               # todos deben estar "running"; gateway y legacy-db "healthy"
 ./validator check               # pruebas públicas del contrato (gateway en http://localhost:8082)
 ./rollback.sh affiliations      # devuelve el dominio Afiliaciones a LEGACY (menos de 1 segundo)
@@ -45,6 +45,7 @@ Todo se lee de `.env` (se crea desde `.env.example`; `.env` nunca se versiona). 
 | `LEGACY_DB_PORT` | Puerto de la base legacy | `5432` |
 | `GATEWAY_URL` | URL del gateway que usan el portal y Subsidios | `http://gateway:8082` |
 | `GATEWAY_PORT` | Puerto publicado en el host para el contrato | `8082` |
+| `PORTAL_UI_PORT` | Puerto publicado para la interfaz visual del portal | `8093` |
 | `GATEWAY_WRITE_CONSUMERS` | Consumidores con permiso de escritura (retiros); `mobile` nunca puede | `subsidios,portal` |
 | `LEGACY_CONNECT_TIMEOUT` | Segundos máximos para conectar con el legacy | `1` |
 | `LEGACY_DEADLINE_SECONDS` | Plazo total por llamada al legacy; vencido responde 503 `LEGACY_UNAVAILABLE` | `2.5` |
@@ -66,6 +67,7 @@ Portal / Subsidios / Móvil ──Bearer──▶ gateway ──▶ modelo canó
   que conoce tablas, columnas y el procedimiento legacy, y detecta solo si el esquema es el original o el renombrado.
 - `educacion-app`: lee la base directamente (no se modifica).
 - `portal-client`: solo habla HTTP con `GATEWAY_URL` (no se modifica).
+- `portal-ui`: interfaz visual del portal en el puerto 8093; su servidor web consulta al gateway y mantiene el token fuera del navegador.
 - `subsidios-app`: registra retiros por el gateway (modos DUAL/MODERN) o por el procedimiento legacy (modo LEGACY, el rollback). El modo
   se lee de `state/affiliations.mode`, por eso el rollback no depende de que el gateway esté vivo.
 - `tests`: servicio con perfil `test` que ejecuta pytest contra la API en funcionamiento y deja el reporte JUnit en `test-results/`.
