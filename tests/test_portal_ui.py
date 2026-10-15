@@ -20,7 +20,10 @@ def test_portal_homepage_serves_dashboard():
     assert 'class="account-switch"' not in response.text
     assert 'href="#company-card"' in response.text
     assert 'id="language-toggle"' in response.text
+    assert 'id="language-overlay"' in response.text
     assert 'id="language-panel"' in response.text
+    assert "North America" in response.text
+    assert "Latin America &amp; The Caribbean" in response.text
     assert 'data-language="es"' in response.text
     assert 'data-language="en"' in response.text
 

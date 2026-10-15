@@ -26,7 +26,8 @@ const translations = {
     home: 'Inicio',
     changeLanguage: 'Cambiar idioma',
     selectLanguage: 'Seleccionar idioma',
-    languageTitle: 'Idioma / Language',
+    closeLanguage: 'Cerrar selección de idioma',
+    back: 'Volver',
     userProfile: 'Perfil del usuario',
     portalServices: 'PORTAL DE SERVICIOS',
     heroFirst: 'Todo sobre tus afiliados,',
@@ -117,7 +118,8 @@ const translations = {
     home: 'Home',
     changeLanguage: 'Change language',
     selectLanguage: 'Select language',
-    languageTitle: 'Language',
+    closeLanguage: 'Close language selection',
+    back: 'Back',
     userProfile: 'User profile',
     portalServices: 'SERVICES PORTAL',
     heroFirst: 'Everything about your members,',
@@ -195,6 +197,8 @@ const resourcesPanel = document.querySelector('#resources-panel');
 const languageMenu = document.querySelector('#language-menu');
 const languageToggle = document.querySelector('#language-toggle');
 const languagePanel = document.querySelector('#language-panel');
+const languageOverlay = document.querySelector('#language-overlay');
+const languageClose = document.querySelector('#language-close');
 let currentLanguage = 'es';
 try {
   currentLanguage = localStorage.getItem('fesc-language') === 'en' ? 'en' : 'es';
@@ -225,7 +229,10 @@ function applyLanguage(language) {
     node.title = translate(node.dataset.i18nTitle);
   });
   document.querySelectorAll('.language-option').forEach((option) => {
-    option.setAttribute('aria-pressed', String(option.dataset.language === language));
+    const selected = option.dataset.language === language;
+    option.setAttribute('aria-pressed', String(selected));
+    if (selected) option.setAttribute('aria-current', 'true');
+    else option.removeAttribute('aria-current');
   });
   document.querySelector('#updated-at').textContent = formatUpdatedAt();
   if (feedback.dataset.translationKey) {
@@ -478,19 +485,35 @@ document.querySelectorAll('.side-nav a[href^="#"]').forEach((link) => {
 
 resourcesToggle.addEventListener('click', () => {
   const isExpanded = resourcesToggle.getAttribute('aria-expanded') === 'true';
-  languageToggle.setAttribute('aria-expanded', 'false');
-  languagePanel.hidden = true;
+  closeLanguagePanel(false);
   resourcesToggle.setAttribute('aria-expanded', String(!isExpanded));
   resourcesPanel.hidden = isExpanded;
 });
 
 languageToggle.addEventListener('click', () => {
-  const isExpanded = languageToggle.getAttribute('aria-expanded') === 'true';
+  const isExpanded = !languageOverlay.hidden;
   resourcesToggle.setAttribute('aria-expanded', 'false');
   resourcesPanel.hidden = true;
-  languageToggle.setAttribute('aria-expanded', String(!isExpanded));
-  languagePanel.hidden = isExpanded;
+  if (isExpanded) closeLanguagePanel(false);
+  else openLanguagePanel();
 });
+
+function openLanguagePanel() {
+  languageOverlay.hidden = false;
+  languageToggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('language-open');
+  languageClose.focus();
+}
+
+function closeLanguagePanel(restoreFocus = true) {
+  languageOverlay.hidden = true;
+  languageToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('language-open');
+  if (restoreFocus) languageToggle.focus();
+}
+
+languageClose.addEventListener('click', () => closeLanguagePanel());
+document.querySelector('#language-backdrop').addEventListener('click', () => closeLanguagePanel());
 
 languagePanel.addEventListener('click', (event) => {
   const option = event.target.closest('[data-language]');
@@ -502,9 +525,7 @@ languagePanel.addEventListener('click', (event) => {
   } catch {
     // Language selection still applies for this page when storage is unavailable.
   }
-  languageToggle.setAttribute('aria-expanded', 'false');
-  languagePanel.hidden = true;
-  languageToggle.focus();
+  closeLanguagePanel();
 });
 
 resourcesPanel.addEventListener('click', (event) => {
@@ -521,15 +542,25 @@ document.addEventListener('click', (event) => {
   }
   if (!languageMenu.contains(event.target)) {
     languageToggle.setAttribute('aria-expanded', 'false');
-    languagePanel.hidden = true;
   }
 });
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && languageToggle.getAttribute('aria-expanded') === 'true') {
-    languageToggle.setAttribute('aria-expanded', 'false');
-    languagePanel.hidden = true;
-    languageToggle.focus();
+  if (event.key === 'Escape' && !languageOverlay.hidden) {
+    closeLanguagePanel();
+    return;
+  }
+  if (event.key === 'Tab' && !languageOverlay.hidden) {
+    const controls = [...languagePanel.querySelectorAll('button:not([disabled])')];
+    const firstControl = controls[0];
+    const lastControl = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === firstControl) {
+      event.preventDefault();
+      lastControl.focus();
+    } else if (!event.shiftKey && document.activeElement === lastControl) {
+      event.preventDefault();
+      firstControl.focus();
+    }
     return;
   }
   if (event.key === 'Escape' && resourcesToggle.getAttribute('aria-expanded') === 'true') {
@@ -565,7 +596,6 @@ async function checkServices() {
   }
 }
 
-languagePanel.hidden = true;
 applyLanguage(currentLanguage);
 checkServices();
 searchMember(input.value);

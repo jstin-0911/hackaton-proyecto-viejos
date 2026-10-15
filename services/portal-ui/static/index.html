@@ -71,11 +71,6 @@
               <button class="locale-icon" id="language-toggle" type="button" aria-label="Cambiar idioma" title="Cambiar idioma" aria-expanded="false" aria-controls="language-panel" data-i18n-aria-label="changeLanguage" data-i18n-title="changeLanguage">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
               </button>
-              <div class="language-panel" id="language-panel" aria-label="Seleccionar idioma" data-i18n-aria-label="selectLanguage" hidden>
-                <h2 data-i18n="languageTitle">Idioma / Language</h2>
-                <button class="language-option" type="button" data-language="es" aria-pressed="true"><span>Español</span><span class="language-check" aria-hidden="true">✓</span></button>
-                <button class="language-option" type="button" data-language="en" aria-pressed="false"><span>English</span><span class="language-check" aria-hidden="true">✓</span></button>
-              </div>
             </div>
             <button class="profile-button" type="button" aria-label="Perfil del usuario" data-i18n-aria-label="userProfile">
               <span class="profile-avatar">AF</span>
@@ -147,6 +142,60 @@
           </section>
           <footer class="page-footer"><span data-i18n="footerBrand">© FESC · Portal de servicios</span><span><span class="footer-shield">◆</span> <span data-i18n="privacyFooter">Tu información se gestiona de forma segura</span></span></footer>
         </main>
+      </div>
+      <div class="language-overlay" id="language-overlay" hidden>
+        <button class="language-backdrop" id="language-backdrop" type="button" aria-label="Cerrar selección de idioma" data-i18n-aria-label="closeLanguage"></button>
+        <aside class="language-panel" id="language-panel" role="dialog" aria-modal="true" aria-label="Seleccionar idioma" data-i18n-aria-label="selectLanguage">
+          <button class="language-close" id="language-close" type="button" aria-label="Volver" data-i18n-aria-label="back">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+          <section class="language-region" aria-labelledby="language-north-america">
+            <h2 id="language-north-america">North America</h2>
+            <article class="language-country">
+              <h3>UNITED STATES</h3>
+              <button class="language-option" type="button" data-language="en" aria-pressed="false">English</button>
+            </article>
+            <article class="language-country">
+              <h3>CANADA</h3>
+              <button class="language-option" type="button" data-language="en" aria-pressed="false">English</button>
+            </article>
+          </section>
+          <section class="language-region" aria-labelledby="language-latin-america">
+            <h2 id="language-latin-america">Latin America &amp; The Caribbean</h2>
+            <article class="language-country">
+              <h3>ANGUILLA</h3>
+              <button class="language-option" type="button" data-language="en" aria-pressed="false">English</button>
+            </article>
+            <article class="language-country">
+              <h3>ANTIGUA AND BARBUDA</h3>
+              <button class="language-option" type="button" data-language="en" aria-pressed="false">English</button>
+            </article>
+            <article class="language-country">
+              <h3>ARGENTINA</h3>
+              <button class="language-option" type="button" data-language="es" aria-pressed="false">Español</button>
+            </article>
+            <article class="language-country">
+              <h3>BAHAMAS</h3>
+              <button class="language-option" type="button" data-language="en" aria-pressed="false">English</button>
+            </article>
+            <article class="language-country">
+              <h3>BARBADOS</h3>
+              <button class="language-option" type="button" data-language="en" aria-pressed="false">English</button>
+            </article>
+            <article class="language-country">
+              <h3>BOLIVIA</h3>
+              <button class="language-option" type="button" data-language="es" aria-pressed="false">Español</button>
+            </article>
+            <article class="language-country">
+              <h3>COLOMBIA</h3>
+              <button class="language-option" type="button" data-language="es" aria-pressed="false">Español</button>
+            </article>
+            <article class="language-country">
+              <h3>MEXICO</h3>
+              <button class="language-option" type="button" data-language="es" aria-pressed="false">Español</button>
+            </article>
+          </section>
+        </aside>
       </div>
     </div>
   </body>

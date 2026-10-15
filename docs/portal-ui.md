@@ -13,7 +13,7 @@
 
 La pantalla inicial está en `http://localhost:8093`. El botón de búsqueda consulta `GET /api/member/{documento}` del servicio visual; este reúne afiliado, beneficiarios y empresa desde los endpoints autenticados del gateway. `GET /api/health` refleja la disponibilidad del gateway. El portal conserva su contrato original en `http://localhost:8092/portal/afiliados/{documento}`.
 
-La navegación lateral reúne accesos directos a Afiliados, Empresas y Beneficiarios. La cabecera mantiene el estado del sistema, el selector de idioma y el perfil; también incluye un menú Recursos con enlaces organizados por categoría. El selector del globo ofrece Español e English y recuerda la elección en el navegador. El selector y el menú de recursos se pueden usar con teclado, se cierran con `Escape` o al pulsar fuera, y se adaptan a móvil.
+La navegación lateral reúne accesos directos a Afiliados, Empresas y Beneficiarios. La cabecera mantiene el estado del sistema, el selector de idioma y el perfil; también incluye un menú Recursos con enlaces organizados por categoría. El selector del globo abre un panel lateral desplazable, agrupado por regiones y países, con Español e English; recuerda la elección en el navegador. El panel modal se puede usar con teclado, se cierra con `Escape`, la flecha de regreso o al pulsar fuera, y se adapta a móvil.
 
 ## Privacidad y accesibilidad
 
