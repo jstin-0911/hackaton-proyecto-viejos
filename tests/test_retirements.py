@@ -2,6 +2,7 @@
 
 import json
 import time
+import uuid
 
 import pytest
 import requests
@@ -96,7 +97,8 @@ def read_audit():
 
 def test_subsidios_registers_through_the_gateway_once(api, legacy, retirable):
     document, created = retirable
-    body = {"documento": document, "fecha": "2026-10-06", "motivo": "retiro vía subsidios"}
+    body = {"documento": document, "fecha": "2026-10-06", "motivo": "retiro vía subsidios",
+            "requestId": "subsidios-test-" + uuid.uuid4().hex}
     first = requests.post(SUBSIDIOS + "/retiros", json=body, timeout=15)
     second = requests.post(SUBSIDIOS + "/retiros", json=body, timeout=15)
     assert first.status_code == 201 and first.json()["via"] == "gateway"

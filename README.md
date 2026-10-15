@@ -125,7 +125,7 @@ Extras operativos (documentados en `openapi.yaml`): `GET /api/v1/retirements/{re
 
 ## Pruebas
 
-Las pruebas automatizadas (38 con pytest) verifican contra la API en marcha el contrato de cada ruta, el formato de errores sin trazas ni SQL,
+Las pruebas automatizadas (44 con pytest) verifican contra la API en marcha el contrato de cada ruta, el portal visual y sus consultas, el formato de errores sin trazas ni SQL,
 los permisos por token, la idempotencia de retiros, el efecto visible en la base legacy y en Educación, el paso de Subsidios por el gateway y la
 auditoría con documentos enmascarados; restauran los datos que tocan. Se ejecutan con
 `docker compose --profile test run --rm tests` y dejan el reporte JUnit en `test-results/junit.xml`. Los eventos destructivos (caída de la base,

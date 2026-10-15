@@ -101,6 +101,7 @@ services:
     env_file: .env
     environment:
       GATEWAY_BASE_URL: http://gateway:8082
+      PORTAL_UI_BASE_URL: http://portal-ui:8093
       SUBSIDIOS_BASE_URL: http://subsidios-app:8091
       EDUCACION_BASE_URL: http://educacion-app:8090
       AUDIT_LOG_PATH: /logs/audit.log
@@ -109,6 +110,8 @@ services:
       - ./test-results:/app/test-results
     depends_on:
       gateway:
+        condition: service_healthy
+      portal-ui:
         condition: service_healthy
       subsidios-app:
         condition: service_started
